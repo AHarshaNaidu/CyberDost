@@ -52,7 +52,7 @@ st.set_page_config(page_title="SecuLens 🔍", page_icon="🛡️")
 st.title("SecuLens 🛡️")
 
 # Add image to the sidebar
-st.sidebar.image("path_to_your_image.png", use_column_width=True)
+st.sidebar.image("https://www.google.com/search?client=opera&hs=kgn&sca_esv=6590bfce35d1c64e&q=shield+image+url&udm=2&fbs=AEQNm0CFDpRHaDHkXm_YXueHTfHtrgIXUKlluACpCix4T5ZoUSz6e3GWv4zN_09JkP2cR-DwqD-ER1CSuTjXzdXNKT0Wma9mNyum3oWLzhs1xt8u5N_8f3uUgStDs9UpKFAFlFGSOMoqQM9HMiNsP9mioHh2RXyquw6CV17dtB6pod7Wqwuaoj8KLwF-5ybcxBC-9vVePghwqzsfsWfHCa5dRS4yxLs8KA&sa=X&ved=2ahUKEwjZq-SSpfCIAxXJ9DgGHTIQOqUQtKgLegQIExAB&biw=1348&bih=675&dpr=1.38#vhid=l3OaAW5e1p20sM&vssid=mosaic", use_column_width=True)
 
 # Sidebar title
 st.sidebar.title("SecuLens")
