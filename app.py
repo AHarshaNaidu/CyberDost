@@ -6,7 +6,7 @@ from groq import Groq
 api_key = st.secrets["api_key"]
 client = Groq(api_key=api_key)
 
-# Define the optimized and detailed prompt templates for cybersecurity audits
+# Define the prompt templates
 preprocess_prompt_template = """
 You are an AI assistant specialized in cybersecurity audits.
 Analyze the given cybersecurity audit report and provide a detailed summary.
@@ -26,14 +26,13 @@ Ensure the summary includes a clear explanation of each identified item and its 
 
 decision_support_prompt_template = """
 You are an AI assistant specialized in cybersecurity audit analysis.
-Use the provided cybersecurity audit report summary to assist with decision-making.
-Answer the following decision-related questions based on the audit findings and provide actionable insights.
+Answer the user's question based on the following audit report summary and provide actionable insights.
 
-### Example Questions:
-1. What are the most critical vulnerabilities?
-2. What actions should be prioritized for remediation?
-3. Are there any compliance issues highlighted in the audit?
-4. What are the risks if no action is taken?
+### Audit Report Summary:
+{audit_summary}
+
+### User's Question:
+{user_question}
 """
 
 # Function to call the Groq API
@@ -55,8 +54,8 @@ st.title("Cybersecurity Audit Analyzer 🛡️")
 # Initialize session state variables
 if 'audit_summary' not in st.session_state:
     st.session_state['audit_summary'] = None
-if 'decision_support' not in st.session_state:
-    st.session_state['decision_support'] = None
+if 'chat_history' not in st.session_state:
+    st.session_state['chat_history'] = []
 
 # Step 1: Upload and Analyze Cybersecurity Audit
 def analyze_audit():
@@ -70,7 +69,7 @@ def analyze_audit():
         if st.button('Analyze Report'):
             with st.spinner("Analyzing..."):
                 # For simplicity, we'll use dummy content for the uploaded file
-                file_content = "Sample cybersecurity audit content"  # Replace this with actual file reading logic
+                file_content = "Sample cybersecurity audit content"  # Replace with actual file reading logic
 
                 analysis_prompt = f"Analyze this cybersecurity audit:\n{file_content}"
                 audit_summary = call_llm_api(preprocess_prompt_template, analysis_prompt)
@@ -82,36 +81,45 @@ def analyze_audit():
 
             return st.session_state['audit_summary']
 
-# Step 2: Provide Decision Support
-def decision_support():
-    st.header('Step 2: Decision Support')
+# Step 2: Chat-based Decision Support
+def decision_chat():
+    st.header('Step 2: Chat-based Decision Support')
 
     if st.session_state['audit_summary']:
         st.write("### Audit Summary from Step 1:")
         st.write(st.session_state['audit_summary'])
 
-    if st.button('Provide Decision Support'):
-        with st.spinner("Generating decision support..."):
-            decision_prompt = f"Provide decision support for this audit summary:\n{st.session_state['audit_summary']}"
-            st.session_state['decision_support'] = call_llm_api(decision_support_prompt_template, decision_prompt)
+        # Chat interface
+        user_question = st.text_input("Ask a decision-related question about the audit:")
+        if user_question:
+            with st.spinner("Generating answer..."):
+                # Combine audit summary and user question for the prompt
+                decision_prompt = decision_support_prompt_template.format(
+                    audit_summary=st.session_state['audit_summary'],
+                    user_question=user_question
+                )
+                ai_response = call_llm_api(decision_support_prompt_template, decision_prompt)
 
-        st.write("### Decision Support Insights:")
-        st.write(st.session_state['decision_support'])
+                # Add user question and AI response to chat history
+                st.session_state['chat_history'].append({"question": user_question, "answer": ai_response})
 
-        return st.session_state['decision_support']
+        # Display chat history
+        for chat in st.session_state['chat_history']:
+            st.write(f"**You:** {chat['question']}")
+            st.write(f"**AI:** {chat['answer']}")
 
 # Main function to integrate steps
 def main():
     st.sidebar.title("Cybersecurity Audit Analyzer")
-    step = st.sidebar.radio("Select Step", ["Step 1: Analyze Audit Report", "Step 2: Decision Support"])
+    step = st.sidebar.radio("Select Step", ["Step 1: Analyze Audit Report", "Step 2: Chat-based Decision Support"])
 
     if step == "Step 1: Analyze Audit Report":
-        audit_summary = analyze_audit()
-    elif step == "Step 2: Decision Support":
+        analyze_audit()
+    elif step == "Step 2: Chat-based Decision Support":
         if st.session_state['audit_summary'] is None:
             st.warning("Please complete Step 1: Analyze Audit Report first.")
         else:
-            decision_support()
+            decision_chat()
 
 if __name__ == '__main__':
     main()
