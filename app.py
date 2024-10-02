@@ -110,7 +110,7 @@ def decision_chat():
 
 # Main function to integrate steps
 def main():
-    st.sidebar.title("Cybersecurity Audit Analyzer")
+    st.sidebar.title("SecuLens")
     step = st.sidebar.radio("Select Step", ["Step 1: Analyze Audit Report", "Step 2: Chat-based Decision Support"])
 
     if step == "Step 1: Analyze Audit Report":
