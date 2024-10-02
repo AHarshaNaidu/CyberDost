@@ -48,8 +48,8 @@ def call_llm_api(prompt_template, user_content):
     return response.choices[0].message.content
 
 # Streamlit interface
-st.set_page_config(page_title="Cybersecurity Audit Analyzer 🛡️", page_icon="🛡️")
-st.title("Cybersecurity Audit Analyzer 🛡️")
+st.set_page_config(page_title="VigiAuditAI 🛡️", page_icon="🛡️")
+st.title("VigiAuditAI 🛡️")
 
 # Initialize session state variables
 if 'audit_summary' not in st.session_state:
