@@ -51,6 +51,12 @@ def call_llm_api(prompt_template, user_content):
 st.set_page_config(page_title="SecuLens 🔍", page_icon="🛡️")
 st.title("SecuLens 🛡️")
 
+# Add image to the sidebar
+st.sidebar.image("path_to_your_image.png", use_column_width=True)
+
+# Sidebar title
+st.sidebar.title("SecuLens")
+
 # Initialize session state variables
 if 'audit_summary' not in st.session_state:
     st.session_state['audit_summary'] = None
@@ -110,7 +116,6 @@ def decision_chat():
 
 # Main function to integrate steps
 def main():
-    st.sidebar.title("SecuLens")
     step = st.sidebar.radio("Select Step", ["Step 1: Analyze Audit Report", "Step 2: Chat-based Decision Support"])
 
     if step == "Step 1: Analyze Audit Report":
