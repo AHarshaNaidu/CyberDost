@@ -2,3 +2,5 @@ streamlit
 pandas
 groq
 spacy
+xlrd
+openpyxl
