@@ -49,10 +49,10 @@ def call_llm_api(prompt_template, user_content):
 
 # Streamlit interface
 st.set_page_config(page_title="SecuLens 🔍", page_icon="🛡️")
-st.title("SecuLens 🛡️")
+st.title("🛡️SecuLens🔍")
 
 # Sidebar title
-st.sidebar.title("SecuLens")
+st.sidebar.title("🛡️SecuLens🔍")
 
 # Initialize session state variables
 if 'audit_summary' not in st.session_state:
