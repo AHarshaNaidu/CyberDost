@@ -38,7 +38,7 @@ Answer the user's question based on the following audit report summary and provi
 # Function to call the Groq API
 def call_llm_api(prompt_template, user_content):
     data = {
-        "model": "llama3-groq-70b-8192-tool-use-preview",
+        "model": "llama-3.1-8b-instant",
         "messages": [
             {"role": "system", "content": prompt_template},
             {"role": "user", "content": user_content}
